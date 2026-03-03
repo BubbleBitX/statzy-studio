@@ -10,63 +10,62 @@ export default function TopBar({ onExport, onExportGif, onCopy, exporting, expor
 
       {/* Logo */}
       <div className="flex items-center gap-2 select-none">
-        <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black"
+        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-black"
           style={{ background: 'linear-gradient(135deg, #FF3EA4, #7C3AED)', fontFamily: 'Syne' }}>
           S
         </div>
-        <span className="font-black text-lg tracking-tight" style={{ fontFamily: 'Syne' }}>
+        <span className="font-black text-sm sm:text-lg tracking-tight" style={{ fontFamily: 'Syne' }}>
           <span style={{ background: 'linear-gradient(90deg,#FF3EA4,#7C3AED)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>STATZY</span>
         </span>
-        <span className="text-xs font-mono" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em' }}>STUDIO</span>
+        <span className="text-xs font-mono hidden sm:inline" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em' }}>STUDIO</span>
       </div>
 
       <div className="flex-1" />
 
       {/* Actions */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         {/* Mobile preview btn */}
         <button
           onClick={() => setMobilePreview(true)}
-          className="md:hidden px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+          className="md:hidden px-2 py-1.5 rounded-lg text-xs font-semibold transition-all"
           style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.6)', border: '1px solid var(--border)' }}>
-          👁 Preview
+          👁
         </button>
 
         <button
           onClick={randomize}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:bg-white/10"
+          className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all hover:bg-white/10"
           style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.55)', border: '1px solid var(--border)' }}>
-          🎲 <span className="hidden md:inline">Randomize</span>
+          🎲 <span className="hidden lg:inline">Randomize</span>
         </button>
 
         <button
           onClick={reset}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:bg-white/10"
+          className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all hover:bg-white/10"
           style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.55)', border: '1px solid var(--border)' }}>
-          ↺ <span className="hidden md:inline">Reset</span>
+          ↺ <span className="hidden lg:inline">Reset</span>
         </button>
 
         <button
           onClick={onCopy}
-          className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+          className="hidden md:flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all"
           style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', border: '1px solid rgba(124,58,237,0.3)' }}>
-          📋 Copy
+          📋 <span className="hidden lg:inline">Copy</span>
         </button>
 
         <button
-          onClick={onExportGif}
-          disabled={exporting}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95"
-          style={{ background: 'linear-gradient(135deg,#F59E0B,#DC2626)', color: '#fff', opacity: exporting ? 0.7 : 1 }}>
-          {exporting ? '⏳' : '🎬 Export GIF'}
+          disabled
+          className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-bold transition-all cursor-not-allowed opacity-50"
+          style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '1px solid var(--border)' }}>
+          🎬 <span className="hidden lg:inline">GIF</span> <span className="text-xs opacity-60">SOON</span>
         </button>
 
         <button
           onClick={onExport}
           disabled={exporting}
-          className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95"
+          className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95"
           style={{ background: exported ? 'linear-gradient(135deg,#22C55E,#16A34A)' : 'linear-gradient(135deg,#FF3EA4,#7C3AED)', color: '#fff', opacity: exporting ? 0.7 : 1 }}>
-          {exporting ? '⏳' : exported ? '✓ Saved!' : '⬇ Export PNG'}
+          {exporting ? '⏳' : exported ? '✓' : '⬇'} <span className="hidden sm:inline">PNG</span>
         </button>
       </div>
     </header>

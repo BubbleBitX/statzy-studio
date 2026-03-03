@@ -256,21 +256,18 @@ export default function ControlPanel({ onExport, onExportGif, exporting, exporte
           }}>
           {exporting ? '⏳ Exporting…' : exported ? '✓ Exported!' : '⬇ Export PNG (Free)'}
         </button>
-        <button onClick={onExportGif} disabled={exporting}
-          className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-95"
-          style={{
-            background: exporting ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg,#F59E0B,#DC2626)',
-            color: '#fff', opacity: exporting ? 0.7 : 1,
-            fontFamily: "'Syne',sans-serif",
-          }}>
-          {exporting ? '🎬 Creating GIF…' : '🎬 Export Animated GIF'}
+        <button className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all cursor-not-allowed opacity-50"
+          disabled
+          style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '1px solid var(--border)' }}>
+          🎬 Animated GIF <span style={{ fontSize: 10, opacity: 0.6 }}>COMING SOON</span>
         </button>
-        <button className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-white/10"
-          style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)', border: '1px solid var(--border)' }}>
-          📹 Video Recap <span style={{ fontSize: 10, opacity: 0.6 }}>PRO</span>
+        <button className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all cursor-not-allowed opacity-50"
+          disabled
+          style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '1px solid var(--border)' }}>
+          📹 Video Recap <span style={{ fontSize: 10, opacity: 0.6 }}>COMING SOON</span>
         </button>
         <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', textAlign: 'center', fontFamily: "'Space Mono',monospace" }}>
-          PNG export is free · GIF export available
+          PNG export is free · Premium features coming soon
         </p>
         
         {/* Error display */}

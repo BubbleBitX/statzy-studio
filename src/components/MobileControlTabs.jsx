@@ -9,7 +9,7 @@ const TABS = [
   { id: 'export',    label: 'Export',   icon: '⬇' },
 ]
 
-export default function MobileControlTabs({ onExport, exporting, exported }) {
+export default function MobileControlTabs({ onExport, onExportGif, exporting, exported }) {
   const [tab, setTab] = useState('content')
 
   return (
@@ -30,7 +30,7 @@ export default function MobileControlTabs({ onExport, exporting, exported }) {
       <div style={{ maxHeight: '45vh', overflowY: 'auto' }}>
         {tab === 'templates' && <TemplatePanel />}
         {(tab === 'content' || tab === 'colors' || tab === 'export') && (
-          <ControlPanel onExport={onExport} exporting={exporting} exported={exported} />
+          <ControlPanel onExport={onExport} onExportGif={onExportGif} exporting={exporting} exported={exported} />
         )}
       </div>
     </div>
