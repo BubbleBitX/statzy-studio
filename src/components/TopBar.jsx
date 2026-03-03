@@ -5,24 +5,24 @@ export default function TopBar({ onExport, onCopy, exporting, exported, onMobile
   const { randomize, reset, setMobilePreview } = useStudio()
 
   return (
-    <header className="h-14 flex items-center px-4 gap-3 border-b shrink-0 z-50"
+    <header className="h-14 sm:h-16 flex items-center px-3 sm:px-4 gap-2 sm:gap-3 border-b shrink-0 z-50"
       style={{ background: 'var(--panel)', borderColor: 'var(--border)' }}>
 
       {/* Logo */}
-      <div className="flex items-center gap-2 select-none">
-        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-black"
+      <div className="flex items-center gap-1.5 sm:gap-2 select-none">
+        <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-black"
           style={{ background: 'linear-gradient(135deg, #FF3EA4, #7C3AED)', fontFamily: 'Syne' }}>
           S
         </div>
         <div className="flex flex-col">
-          <span className="font-black text-sm sm:text-lg tracking-tight" style={{ fontFamily: 'Syne' }}>
+          <span className="font-black text-xs xs:text-sm sm:text-lg tracking-tight" style={{ fontFamily: 'Syne' }}>
             <span style={{ background: 'linear-gradient(90deg,#FF3EA4,#7C3AED)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>STATZY</span>
           </span>
-          <span className="text-xs font-mono hidden sm:block" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', lineHeight: 1 }}>
+          <span className="text-[8px] xs:text-[9px] sm:text-xs font-mono hidden xs:block" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.1em', lineHeight: 1 }}>
             Create Beautiful Stats Cards
           </span>
         </div>
-        <span className="text-xs font-mono hidden sm:inline" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em' }}>STUDIO</span>
+        <span className="text-[8px] xs:text-xs sm:text-xs font-mono hidden sm:inline" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.1em' }}>STUDIO</span>
       </div>
 
       <div className="flex-1" />
@@ -39,9 +39,9 @@ export default function TopBar({ onExport, onCopy, exporting, exported, onMobile
 
         <button
           onClick={randomize}
-          className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all hover:bg-white/10"
+          className="hidden xs:flex items-center gap-1 px-1.5 py-1.5 rounded-lg text-xs font-semibold transition-all hover:bg-white/10"
           style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.55)', border: '1px solid var(--border)' }}>
-          🎲 <span className="hidden lg:inline">Randomize</span>
+          🎲 <span className="hidden sm:inline">Randomize</span>
         </button>
 
         <button

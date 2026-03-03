@@ -18,10 +18,16 @@ export default function MobileControlTabs({ onExport, exporting, exported }) {
       <div className="flex border-b" style={{ borderColor: 'var(--border)' }}>
         {TABS.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
-            className="flex-1 py-2.5 flex flex-col items-center gap-0.5 transition-colors"
-            style={{ color: tab === t.id ? '#fff' : 'rgba(255,255,255,0.35)', fontSize: 11, borderBottom: tab === t.id ? '2px solid #7C3AED' : '2px solid transparent' }}>
-            <span style={{ fontSize: 16 }}>{t.icon}</span>
-            <span style={{ fontSize: 9, fontFamily: "'Space Mono',monospace", letterSpacing: '0.1em' }}>{t.label}</span>
+            className="flex-1 py-2 xs:py-2.5 flex flex-col items-center gap-0.5 transition-colors active:scale-95"
+            style={{ 
+              color: tab === t.id ? '#fff' : 'rgba(255,255,255,0.35)', 
+              fontSize: 10, 
+              borderBottom: tab === t.id ? '2px solid #7C3AED' : '2px solid transparent',
+              minHeight: '44px', // Minimum touch target
+              touchAction: 'manipulation'
+            }}>
+            <span style={{ fontSize: 14, fontSize: '14px', '@media (min-width: 475px)': { fontSize: '16px' } }}>{t.icon}</span>
+            <span style={{ fontSize: 8, '@media (min-width: 475px)': { fontSize: '9px' }, fontFamily: "'Space Mono',monospace", letterSpacing: '0.1em' }}>{t.label}</span>
           </button>
         ))}
       </div>
