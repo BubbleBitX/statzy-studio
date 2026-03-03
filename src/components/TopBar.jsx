@@ -14,9 +14,14 @@ export default function TopBar({ onExport, onCopy, exporting, exported, onMobile
           style={{ background: 'linear-gradient(135deg, #FF3EA4, #7C3AED)', fontFamily: 'Syne' }}>
           S
         </div>
-        <span className="font-black text-sm sm:text-lg tracking-tight" style={{ fontFamily: 'Syne' }}>
-          <span style={{ background: 'linear-gradient(90deg,#FF3EA4,#7C3AED)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>STATZY</span>
-        </span>
+        <div className="flex flex-col">
+          <span className="font-black text-sm sm:text-lg tracking-tight" style={{ fontFamily: 'Syne' }}>
+            <span style={{ background: 'linear-gradient(90deg,#FF3EA4,#7C3AED)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>STATZY</span>
+          </span>
+          <span className="text-xs font-mono hidden sm:block" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', lineHeight: 1 }}>
+            Create Beautiful Stats Cards
+          </span>
+        </div>
         <span className="text-xs font-mono hidden sm:inline" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em' }}>STUDIO</span>
       </div>
 
