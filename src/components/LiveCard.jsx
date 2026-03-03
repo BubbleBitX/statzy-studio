@@ -99,20 +99,54 @@ function BgMinimal({ c1, c2, bg }) {
 }
 
 // ── Main LiveCard ─────────────────────────────────────────────────────────
-const LiveCard = forwardRef(function LiveCard({ style }, ref) {
+const LiveCard = forwardRef(function LiveCard({ style, ...props }, ref) {
   const {
-    templateId, statNumber, statLabel, handle, growth, platformId,
-    mini1, mini2, mini3,
-    color1, color2, color3, colorBg,
-    fontId, numSize, radius,
-    showMini, showLive, showWatermark,
-    sizeId,
+    templateId, color1, color2, color3, colorBg, fontId, numSize, radius,
+    statNumber, statLabel, handle, growth, platformId,
+    mini1, mini2, mini3, showMini, showLive, showWatermark, sizeId
   } = useStudio()
 
   const platform = PLATFORMS.find(p => p.id === platformId)
   const chromeBg = templateId === 'chrome'
   const textColor = chromeBg ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.85)'
   const subColor  = chromeBg ? 'rgba(0,0,0,0.4)'  : 'rgba(255,255,255,0.4)'
+
+  // Responsive padding based on card size and aspect ratio
+  const getResponsivePadding = () => {
+    const cardWidth = style?.width || 340
+    const cardHeight = style?.height || 340
+    const isStory = sizeId === 'story'
+    const isBanner = sizeId === 'banner'
+    
+    if (isStory) {
+      // Story format (9:16) - less padding needed
+      if (cardWidth <= 140) return 12 // Extra small story
+      if (cardWidth <= 180) return 16 // Small story
+      if (cardWidth <= 200) return 20 // Medium story
+      return 24 // Large story
+    }
+    
+    if (isBanner) {
+      // Banner format (16:9) - moderate padding
+      if (cardWidth <= 180) return 16 // Extra small banner
+      if (cardWidth <= 320) return 20 // Small banner
+      if (cardWidth <= 400) return 24 // Medium banner
+      return 28 // Large banner
+    }
+    
+    // Square format (1:1) - standard padding
+    if (cardWidth <= 120) return 16 // Extra small square
+    if (cardWidth <= 160) return 20 // Small square
+    if (cardWidth <= 280) return 24 // Medium square
+    return 28 // Large square
+  }
+
+  const getResponsiveFontSize = (baseSize, minSize = 8) => {
+    const cardWidth = style?.width || 340
+    const scaleFactor = cardWidth / 340
+    const scaledSize = baseSize * scaleFactor
+    return Math.max(minSize, scaledSize)
+  }
 
   const cardStyle = {
     position: 'relative',
@@ -123,7 +157,7 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    padding: 28,
+    padding: getResponsivePadding(),
     fontFamily: `'${fontId}', sans-serif`,
     ...style,
   }
@@ -140,8 +174,8 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
     flex: 1,
     background: chromeBg ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)',
     border: `1px solid ${chromeBg ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.07)'}`,
-    borderRadius: 8,
-    padding: '8px 6px',
+    borderRadius: 6,
+    padding: '6px 4px',
     textAlign: 'center',
     minWidth: 0, // Allow shrinking
   }
@@ -158,8 +192,8 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
       {/* ── Glass frost panel (glass template) ── */}
       {templateId === 'glass' && (
         <div style={{
-          position: 'absolute', inset: 16,
-          borderRadius: Math.max(0, radius - 8),
+          position: 'absolute', inset: getResponsivePadding() / 2,
+          borderRadius: Math.max(0, radius - getResponsivePadding() / 4),
           background: 'rgba(255,255,255,0.05)',
           border: '1px solid rgba(255,255,255,0.1)',
           backdropFilter: 'blur(20px)',
@@ -174,16 +208,17 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{
             fontFamily: "'Space Mono', monospace",
-            fontSize: 10, letterSpacing: '0.18em',
+            fontSize: getResponsiveFontSize(10, 8),
+            letterSpacing: '0.18em',
             color: subColor, textTransform: 'uppercase',
           }}>
             {platform?.icon} {platform?.label}
           </span>
           {showLive && (
-            <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "'Space Mono', monospace", fontSize: 9, color: color3 }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: "'Space Mono', monospace", fontSize: getResponsiveFontSize(9, 7), color: color3 }}>
               <span style={{
-                display: 'inline-block', width: 6, height: 6, borderRadius: '50%',
-                background: color3, boxShadow: `0 0 8px ${color3}`,
+                display: 'inline-block', width: 5, height: 5, borderRadius: '50%',
+                background: color3, boxShadow: `0 0 6px ${color3}`,
                 animation: 'liveBlink 1.5s ease-in-out infinite',
               }} />
               LIVE
@@ -194,7 +229,7 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
         {/* Stat */}
         <div style={{ textAlign: 'center' }}>
           <div style={{
-            fontSize: numSize,
+            fontSize: getResponsiveFontSize(numSize, 24),
             fontWeight: 800,
             letterSpacing: '-0.04em',
             lineHeight: 1,
@@ -202,19 +237,25 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
           }}>
             {statNumber}
           </div>
-          <div style={{ fontSize: 12, color: subColor, letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: 6 }}>
+          <div style={{ 
+            fontSize: getResponsiveFontSize(12, 9), 
+            color: subColor, 
+            letterSpacing: '0.2em', 
+            textTransform: 'uppercase', 
+            marginTop: getResponsiveFontSize(6, 4) 
+          }}>
             {statLabel}
           </div>
         </div>
 
         {/* Mini stats */}
         {showMini && (
-          <div style={{ display: 'flex', gap: 6 }}>
+          <div style={{ display: 'flex', gap: 4 }}>
             {[mini1, mini2, mini3].map((m, i) => (
               <div key={i} style={miniCardStyle}>
                 <div style={{ 
                   fontWeight: 700, 
-                  fontSize: Math.max(12, numSize / 6), // Responsive font size based on main stat
+                  fontSize: getResponsiveFontSize(Math.max(12, numSize / 6), 10),
                   color: textColor,
                   lineHeight: 1,
                   overflow: 'hidden',
@@ -224,9 +265,9 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
                   {m.value}
                 </div>
                 <div style={{ 
-                  fontSize: Math.max(7, numSize / 12), // Responsive label size
+                  fontSize: getResponsiveFontSize(Math.max(7, numSize / 12), 6),
                   color: subColor, 
-                  marginTop: 2, 
+                  marginTop: 1, 
                   textTransform: 'uppercase', 
                   letterSpacing: '0.05em',
                   overflow: 'hidden',
@@ -243,11 +284,29 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
         {/* Footer */}
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          paddingTop: 12,
+          paddingTop: getResponsiveFontSize(12, 8),
           borderTop: `1px solid ${chromeBg ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.07)'}`,
         }}>
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 11, color: subColor }}>{handle}</span>
-          <span style={{ fontWeight: 700, fontSize: 13, color: chromeBg ? color1 : color3 }}>{growth}</span>
+          <span style={{ 
+            fontFamily: "'Space Mono', monospace", 
+            fontSize: getResponsiveFontSize(11, 8), 
+            color: subColor,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            flex: 1,
+            marginRight: 8
+          }}>
+            {handle}
+          </span>
+          <span style={{ 
+            fontWeight: 700, 
+            fontSize: getResponsiveFontSize(13, 9), 
+            color: chromeBg ? color1 : color3,
+            whiteSpace: 'nowrap'
+          }}>
+            {growth}
+          </span>
         </div>
       </div>
 
