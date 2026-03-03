@@ -1,7 +1,7 @@
 import React from 'react'
 import { useStudio } from '@/store/useStudio'
 
-export default function TopBar({ onExport, onCopy, exporting, exported, onMobilePreview }) {
+export default function TopBar({ onExport, onExportGif, onCopy, exporting, exported, onMobilePreview }) {
   const { randomize, reset, setMobilePreview } = useStudio()
 
   return (
@@ -51,6 +51,14 @@ export default function TopBar({ onExport, onCopy, exporting, exported, onMobile
           className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
           style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', border: '1px solid rgba(124,58,237,0.3)' }}>
           📋 Copy
+        </button>
+
+        <button
+          onClick={onExportGif}
+          disabled={exporting}
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95"
+          style={{ background: 'linear-gradient(135deg,#F59E0B,#DC2626)', color: '#fff', opacity: exporting ? 0.7 : 1 }}>
+          {exporting ? '⏳' : '🎬 Export GIF'}
         </button>
 
         <button
