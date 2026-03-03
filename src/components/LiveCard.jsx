@@ -133,15 +133,17 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
+    color: color1, // Fallback color for browsers that don't support text clipping
   }
 
   const miniCardStyle = {
     flex: 1,
     background: chromeBg ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)',
     border: `1px solid ${chromeBg ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.07)'}`,
-    borderRadius: 10,
-    padding: '10px 8px',
+    borderRadius: 8,
+    padding: '8px 6px',
     textAlign: 'center',
+    minWidth: 0, // Allow shrinking
   }
 
   return (
@@ -207,11 +209,32 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
 
         {/* Mini stats */}
         {showMini && (
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 6 }}>
             {[mini1, mini2, mini3].map((m, i) => (
               <div key={i} style={miniCardStyle}>
-                <div style={{ fontWeight: 700, fontSize: 16, color: textColor }}>{m.value}</div>
-                <div style={{ fontSize: 9, color: subColor, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{m.label}</div>
+                <div style={{ 
+                  fontWeight: 700, 
+                  fontSize: Math.max(12, numSize / 6), // Responsive font size based on main stat
+                  color: textColor,
+                  lineHeight: 1,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}>
+                  {m.value}
+                </div>
+                <div style={{ 
+                  fontSize: Math.max(7, numSize / 12), // Responsive label size
+                  color: subColor, 
+                  marginTop: 2, 
+                  textTransform: 'uppercase', 
+                  letterSpacing: '0.05em',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}>
+                  {m.label}
+                </div>
               </div>
             ))}
           </div>

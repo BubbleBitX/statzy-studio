@@ -36,9 +36,9 @@ export const FONTS = [
 ]
 
 export const SIZES = [
-  { id: 'square', label: 'Square', w: 340, ar: 1.1,   desc: '1:1 Feed' },
-  { id: 'story',  label: 'Story',  w: 200, ar: 0.56,  desc: '9:16' },
-  { id: 'banner', label: 'Banner', w: 400, ar: 1.91,  desc: 'Wide' },
+  { id: 'square', label: 'Square', w: 340, ar: 1.0,   desc: '1:1 Feed - Instagram/LinkedIn', exportWidth: 1080, exportHeight: 1080 },
+  { id: 'story',  label: 'Story',  w: 200, ar: 0.5625,  desc: '9:16 Story - Instagram/Facebook', exportWidth: 1080, exportHeight: 1920 },
+  { id: 'banner', label: 'Banner', w: 400, ar: 1.91,  desc: '16:9 Banner - Twitter/Facebook', exportWidth: 1200, exportHeight: 630 },
 ]
 
 const DEFAULT = {
@@ -104,16 +104,67 @@ export const useStudio = create(
       setMobilePreview: (v) => set({ isMobilePreviewOpen: v }),
 
       randomize: () => {
-        const rand = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')
+        const randColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')
+        const randDarkColor = () => '#' + Math.floor(Math.random() * 0x202020 + 0x050505).toString(16)
+        
         const fonts = FONTS.map(f => f.id)
-        const tmpl = TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)]
+        const templates = TEMPLATES.map(t => t.id)
+        const platforms = PLATFORMS.map(p => p.id)
+        
+        // Content randomization data
+        const statNumbers = ['50K', '1.2M', '847K', '3.4M', '125K', '9.8M', '2.1K', '756K', '4.2M', '89K']
+        const statLabels = ['Followers', 'Likes', 'Views', 'Subscribers', 'Connections', 'Fans', 'Members', 'Visitors', 'Users', 'Customers']
+        const handles = ['@yourhandle', '@username', '@brand', '@creator', '@business', '@artist', '@studio', '@company', '@channel', '@account']
+        const growthTypes = ['▲+', '▼-', '→ ']
+        const growthValues = ['12.4%', '8.7%', '23.1%', '5.2%', '15.9%', '31.4%', '2.8%', '18.6%', '7.3%', '41.2%']
+        
+        const miniValues = ['4.8%', '1.2M', '84K', '92%', '3.7M', '156K', '67%', '2.4M', '445K', '89%']
+        const miniLabels = ['Eng. Rate', 'Impressions', 'Reach', 'Clicks', 'Views', 'Shares', 'Likes', 'Comments', 'Saves', 'Follows']
+        
+        // Generate random content
+        const randomStatNumber = statNumbers[Math.floor(Math.random() * statNumbers.length)]
+        const randomStatLabel = statLabels[Math.floor(Math.random() * statLabels.length)]
+        const randomHandle = handles[Math.floor(Math.random() * handles.length)]
+        const randomGrowth = growthTypes[Math.floor(Math.random() * growthTypes.length)] + growthValues[Math.floor(Math.random() * growthValues.length)]
+        const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)]
+        
+        // Generate random mini stats
+        const generateMiniStat = () => {
+          const value = miniValues[Math.floor(Math.random() * miniValues.length)]
+          const label = miniLabels[Math.floor(Math.random() * miniLabels.length)]
+          return { value, label }
+        }
+        
+        // Randomize toggles
+        const randomToggle = () => Math.random() > 0.3 // 70% chance of being true
+        
         set({
-          color1: rand(),
-          color2: rand(),
-          color3: rand(),
-          colorBg: '#' + Math.floor(Math.random() * 0x202020 + 0x050505).toString(16),
+          // Visual randomization
+          color1: randColor(),
+          color2: randColor(),
+          color3: randColor(),
+          colorBg: randDarkColor(),
           fontId: fonts[Math.floor(Math.random() * fonts.length)],
-          templateId: tmpl.id,
+          templateId: templates[Math.floor(Math.random() * templates.length)],
+          numSize: Math.floor(Math.random() * 40) + 60, // 60-100
+          radius: Math.floor(Math.random() * 20) + 12, // 12-32
+          
+          // Content randomization
+          statNumber: randomStatNumber,
+          statLabel: randomStatLabel,
+          handle: randomHandle,
+          growth: randomGrowth,
+          platformId: randomPlatform,
+          mini1: generateMiniStat(),
+          mini2: generateMiniStat(),
+          mini3: generateMiniStat(),
+          
+          // Toggle randomization
+          showMini: randomToggle(),
+          showLive: randomToggle(),
+          showWatermark: randomToggle(),
+          
+          // Reset palette selection
           activePalette: -1,
         })
       },

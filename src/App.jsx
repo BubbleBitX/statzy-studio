@@ -59,7 +59,7 @@ export default function App() {
 // Desktop center preview
 function DesktopPreview({ cardRef }) {
   const { sizeId } = useStudio()
-  const sizes = { square: { w: 340, ar: 1.1 }, story: { w: 200, ar: 0.56 }, banner: { w: 400, ar: 1.91 } }
+  const sizes = { square: { w: 340, ar: 1.0 }, story: { w: 200, ar: 0.5625 }, banner: { w: 400, ar: 1.91/1.0 } }
   const s = sizes[sizeId] || sizes.square
 
   return (
@@ -97,7 +97,7 @@ function DesktopPreview({ cardRef }) {
 // Tablet preview (larger than mobile)
 function TabletPreview({ cardRef }) {
   const { sizeId } = useStudio()
-  const sizes = { square: { w: 280, ar: 1.1 }, story: { w: 180, ar: 0.56 }, banner: { w: 320, ar: 1.91 } }
+  const sizes = { square: { w: 280, ar: 1.0 }, story: { w: 180, ar: 0.5625 }, banner: { w: 320, ar: 1.91/1.0 } }
   const s = sizes[sizeId] || sizes.square
 
   return (
@@ -161,7 +161,7 @@ function SizeSwitcher() {
 // Mobile small preview strip
 function MobilePreviewSmall({ cardRef }) {
   const { sizeId } = useStudio()
-  const sizes = { square: { w: 160, ar: 1.1 }, story: { w: 140, ar: 0.56 }, banner: { w: 180, ar: 1.91 } }
+  const sizes = { square: { w: 160, ar: 1.0 }, story: { w: 140, ar: 0.5625 }, banner: { w: 180, ar: 1.91/1.0 } }
   const s = sizes[sizeId] || sizes.square
   
   return (
