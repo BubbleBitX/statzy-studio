@@ -12,13 +12,12 @@ import LiveCard from './components/LiveCard'
 export default function App() {
   const cardRef = useRef(null)
   const { color1, color2 } = useStudio()
-  const { exportPng, exportGif, copyToClipboard, exporting, exported } = useExport(cardRef)
+  const { exportPng, copyToClipboard, exporting, exported } = useExport(cardRef)
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <TopBar
         onExport={exportPng}
-        onExportGif={exportGif}
         onCopy={copyToClipboard}
         exporting={exporting}
         exported={exported}
@@ -29,7 +28,7 @@ export default function App() {
         style={{ gridTemplateColumns: '260px 1fr 280px' }}>
         <TemplatePanel />
         <DesktopPreview cardRef={cardRef} />
-        <ControlPanel onExport={exportPng} onExportGif={exportGif} exporting={exporting} exported={exported} />
+        <ControlPanel onExport={exportPng} exporting={exporting} exported={exported} />
       </div>
 
       {/* Mobile layout: preview + bottom tabs */}

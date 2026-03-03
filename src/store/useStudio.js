@@ -104,78 +104,17 @@ export const useStudio = create(
       setMobilePreview: (v) => set({ isMobilePreviewOpen: v }),
 
       randomize: () => {
-        // Generate brighter, more visible colors
-        const randBright = () => {
-          const r = Math.floor(Math.random() * 128) + 127 // 127-255
-          const g = Math.floor(Math.random() * 128) + 127 // 127-255  
-          const b = Math.floor(Math.random() * 128) + 127 // 127-255
-          return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
-        }
         const rand = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')
         const fonts = FONTS.map(f => f.id)
         const tmpl = TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)]
-        
-        // Generate colors and ensure they're valid
-        const newColor1 = randBright()
-        const newColor2 = randBright()
-        const newColor3 = rand()
-        
-        console.log('Randomizing colors:', { newColor1, newColor2, newColor3 })
-        
-        // Random stat numbers and labels
-        const statOptions = [
-          { number: '50K', label: 'Followers' },
-          { number: '125K', label: 'Followers' },
-          { number: '1.2M', label: 'Followers' },
-          { number: '3.4M', label: 'Views' },
-          { number: '89K', label: 'Likes' },
-          { number: '456K', label: 'Subscribers' },
-          { number: '2.1M', label: 'Impressions' },
-          { number: '78K', label: 'Connections' },
-          { number: '923K', label: 'Followers' },
-          { number: '5.6M', label: 'Views' },
-        ]
-        
-        const growthOptions = [
-          '▲ +12.4%',
-          '▲ +24.8%',
-          '▲ +8.3%',
-          '▲ +45.2%',
-          '▲ +15.7%',
-          '▲ +33.1%',
-          '▲ +6.9%',
-          '▲ +18.5%',
-        ]
-        
-        const handleOptions = [
-          '@yourhandle',
-          '@username',
-          '@creator',
-          '@brand',
-          '@influencer',
-          '@business',
-        ]
-        
-        const randomStat = statOptions[Math.floor(Math.random() * statOptions.length)]
-        const randomGrowth = growthOptions[Math.floor(Math.random() * growthOptions.length)]
-        const randomHandle = handleOptions[Math.floor(Math.random() * handleOptions.length)]
-        
         set({
-          color1: newColor1, // Use bright colors for gradient text
-          color2: newColor2, // Use bright colors for gradient text
-          color3: newColor3,  // Can be any color for accent
+          color1: rand(),
+          color2: rand(),
+          color3: rand(),
           colorBg: '#' + Math.floor(Math.random() * 0x202020 + 0x050505).toString(16),
           fontId: fonts[Math.floor(Math.random() * fonts.length)],
           templateId: tmpl.id,
           activePalette: -1,
-          // Also randomize content
-          statNumber: randomStat.number,
-          statLabel: randomStat.label,
-          growth: randomGrowth,
-          handle: randomHandle,
-          // Randomize some other settings for variety
-          numSize: Math.floor(Math.random() * 40) + 60, // 60-100
-          radius: Math.floor(Math.random() * 30) + 10, // 10-40
         })
       },
 

@@ -31,34 +31,20 @@ function BgBlob({ c1, c2, c3, bg }) {
   )
 }
 
-function BgGlass({ c1, c3, isStoryCard }) {
-  // Adjust orb sizes for story cards
-  const orbSize = isStoryCard ? 0.6 : 1
-  const orbBlur = isStoryCard ? 25 : 35
-  
+function BgGlass({ c1, c3 }) {
   return (
     <>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(145deg,#0A1628,#1A0D35,#0D2020)' }} />
       <div style={{
-        position: 'absolute', 
-        width: 220 * orbSize, 
-        height: 220 * orbSize, 
-        borderRadius: '50%',
+        position: 'absolute', width: 220, height: 220, borderRadius: '50%',
         background: `radial-gradient(circle, ${hexAlpha(c3, 0.5)}, transparent 70%)`,
-        filter: `blur(${orbBlur}px)`, 
-        top: -80 * orbSize, 
-        right: -60 * orbSize,
+        filter: 'blur(35px)', top: -80, right: -60,
         animation: 'orbDrift 7s ease-in-out infinite alternate',
       }} />
       <div style={{
-        position: 'absolute', 
-        width: 180 * orbSize, 
-        height: 180 * orbSize, 
-        borderRadius: '50%',
+        position: 'absolute', width: 180, height: 180, borderRadius: '50%',
         background: `radial-gradient(circle, ${hexAlpha(c1, 0.4)}, transparent 70%)`,
-        filter: `blur(${orbBlur}px)`, 
-        bottom: -60 * orbSize, 
-        left: -40 * orbSize,
+        filter: 'blur(35px)', bottom: -60, left: -40,
         animation: 'orbDrift 7s ease-in-out infinite alternate',
         animationDelay: '-3s',
       }} />
@@ -123,17 +109,10 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
     sizeId,
   } = useStudio()
 
-  // Debug logging
-  console.log('LiveCard render:', { statNumber, color1, color2, templateId })
-
   const platform = PLATFORMS.find(p => p.id === platformId)
   const chromeBg = templateId === 'chrome'
-  const glassBg = templateId === 'glass'
-  const textColor = chromeBg ? 'rgba(0,0,0,0.7)' : glassBg ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.85)'
-  const subColor  = chromeBg ? 'rgba(0,0,0,0.4)' : glassBg ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.4)'
-  
-  // Check if this is a story card (narrow aspect ratio)
-  const isStoryCard = sizeId === 'story'
+  const textColor = chromeBg ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.85)'
+  const subColor  = chromeBg ? 'rgba(0,0,0,0.4)'  : 'rgba(255,255,255,0.4)'
 
   const cardStyle = {
     position: 'relative',
@@ -144,16 +123,13 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    padding: isStoryCard ? '16px 20px' : 28, // Smaller padding for story cards
-    fontFamily: `'${fontId}', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif`,
+    padding: 28,
+    fontFamily: `'${fontId}', sans-serif`,
     ...style,
   }
 
   const gradientText = {
-    // Primary color - this ensures text is always visible
-    color: color1,
-    // Try to apply gradient if supported
-    backgroundImage: `linear-gradient(135deg, ${color1}, ${color2})`,
+    background: `linear-gradient(135deg, ${color1}, ${color2})`,
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
@@ -164,16 +140,15 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
     background: chromeBg ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)',
     border: `1px solid ${chromeBg ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.07)'}`,
     borderRadius: 10,
-    padding: isStoryCard ? '6px 4px' : '10px 8px', // Smaller padding for story cards
+    padding: '10px 8px',
     textAlign: 'center',
-    minWidth: isStoryCard ? 'unset' : 'auto', // Allow shrinking on story cards
   }
 
   return (
     <div ref={ref} style={cardStyle}>
       {/* ── Background layer ── */}
       {templateId === 'blob'    && <BgBlob    c1={color1} c2={color2} c3={color3} bg={colorBg} />}
-      {templateId === 'glass'   && <BgGlass   c1={color1} c3={color3} isStoryCard={isStoryCard} />}
+      {templateId === 'glass'   && <BgGlass   c1={color1} c3={color3} />}
       {templateId === 'rave'    && <BgRave    c1={color1} />}
       {templateId === 'chrome'  && <BgChrome  />}
       {templateId === 'minimal' && <BgMinimal c1={color1} c2={color2} bg={colorBg} />}
@@ -181,11 +156,10 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
       {/* ── Glass frost panel (glass template) ── */}
       {templateId === 'glass' && (
         <div style={{
-          position: 'absolute', 
-          inset: isStoryCard ? 8 : 16, // Smaller inset for story cards
-          borderRadius: Math.max(0, radius - (isStoryCard ? 4 : 8)),
-          background: 'rgba(255,255,255,0.08)', // Slightly more visible
-          border: '1px solid rgba(255,255,255,0.15)', // More visible border
+          position: 'absolute', inset: 16,
+          borderRadius: Math.max(0, radius - 8),
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.1)',
           backdropFilter: 'blur(20px)',
           zIndex: 1,
         }} />
@@ -222,13 +196,7 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
             fontWeight: 800,
             letterSpacing: '-0.04em',
             lineHeight: 1,
-            // Use solid color for guaranteed visibility
-            color: chromeBg ? color1 : color1,
-            // Try gradient as enhancement but don't rely on it
-            backgroundImage: chromeBg ? 'none' : `linear-gradient(135deg, ${color1}, ${color2})`,
-            WebkitBackgroundClip: chromeBg ? 'unset' : 'text',
-            WebkitTextFillColor: chromeBg ? color1 : 'transparent',
-            backgroundClip: chromeBg ? 'unset' : 'text',
+            ...gradientText,
           }}>
             {statNumber}
           </div>
@@ -239,36 +207,11 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
 
         {/* Mini stats */}
         {showMini && (
-          <div style={{ 
-            display: 'flex', 
-            gap: isStoryCard ? 3 : 8, // Much smaller gap for story cards
-            justifyContent: 'space-between' // Better space distribution
-          }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             {[mini1, mini2, mini3].map((m, i) => (
-              <div key={i} style={{
-                ...miniCardStyle,
-                flex: isStoryCard ? '1' : '1', // Equal flex but allow shrinking
-                minWidth: isStoryCard ? 0 : 'auto', // Allow shrinking below content size on story
-                maxWidth: isStoryCard ? '33%' : 'auto' // Limit max width on story
-              }}>
-                <div style={{ 
-                  fontWeight: 700, 
-                  fontSize: isStoryCard ? 11 : 16, // Much smaller font for story cards
-                  color: textColor,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                }}>{m.value}</div>
-                <div style={{ 
-                  fontSize: isStoryCard ? 6 : 9, // Much smaller font for story cards
-                  color: subColor, 
-                  marginTop: 1, 
-                  textTransform: 'uppercase', 
-                  letterSpacing: '0.05em',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                }}>{m.label}</div>
+              <div key={i} style={miniCardStyle}>
+                <div style={{ fontWeight: 700, fontSize: 16, color: textColor }}>{m.value}</div>
+                <div style={{ fontSize: 9, color: subColor, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{m.label}</div>
               </div>
             ))}
           </div>
@@ -288,19 +231,10 @@ const LiveCard = forwardRef(function LiveCard({ style }, ref) {
       {/* Watermark */}
       {showWatermark && (
         <div style={{
-          position: 'absolute', 
-          bottom: isStoryCard ? 4 : 8, 
-          right: isStoryCard ? 6 : 10, 
-          zIndex: 10,
-          fontFamily: "'Space Mono', monospace", 
-          fontSize: isStoryCard ? 6 : 8,
-          // Improved visibility with better contrast
-          color: chromeBg ? 'rgba(0,0,0,0.3)' : 
-                 templateId === 'glass' ? 'rgba(255,255,255,0.25)' : 
-                 'rgba(255,255,255,0.2)',
+          position: 'absolute', bottom: 8, right: 10, zIndex: 10,
+          fontFamily: "'Space Mono', monospace", fontSize: 8,
+          color: chromeBg ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.15)',
           letterSpacing: '0.08em',
-          // Add subtle glow for better visibility
-          textShadow: chromeBg ? 'none' : '0 1px 2px rgba(0,0,0,0.3)',
         }}>
           statzy.app
         </div>
