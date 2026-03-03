@@ -1,7 +1,7 @@
 import React from 'react'
 import { useStudio } from '@/store/useStudio'
 
-export default function TopBar({ onExport, onExportGif, onCopy, exporting, exported, onMobilePreview }) {
+export default function TopBar({ onExport, onCopy, exporting, exported, onMobilePreview }) {
   const { randomize, reset, setMobilePreview } = useStudio()
 
   return (

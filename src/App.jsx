@@ -12,13 +12,12 @@ import LiveCard from './components/LiveCard'
 export default function App() {
   const cardRef = useRef(null)
   const { color1, color2 } = useStudio()
-  const { exportPng, exportGif, copyToClipboard, exporting, exported, exportError } = useExport(cardRef)
+  const { exportPng, copyToClipboard, exporting, exported, exportError } = useExport(cardRef)
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <TopBar
         onExport={exportPng}
-        onExportGif={exportGif}
         onCopy={copyToClipboard}
         exporting={exporting}
         exported={exported}
@@ -27,7 +26,7 @@ export default function App() {
       {/* Mobile layout: stacked */}
       <div className="flex flex-col md:hidden flex-1 overflow-hidden">
         <MobilePreviewSmall cardRef={cardRef} />
-        <MobileControlTabs onExport={exportPng} onExportGif={exportGif} exporting={exporting} exported={exported} />
+        <MobileControlTabs onExport={exportPng} exporting={exporting} exported={exported} />
       </div>
 
       {/* Tablet layout: 2 columns */}
@@ -38,7 +37,7 @@ export default function App() {
         <div className="flex-1 flex flex-col">
           <TabletPreview cardRef={cardRef} />
           <div className="border-t" style={{ borderColor: 'var(--border)' }}>
-            <ControlPanel onExport={exportPng} onExportGif={exportGif} exporting={exporting} exported={exported} exportError={exportError} />
+            <ControlPanel onExport={exportPng} exporting={exporting} exported={exported} exportError={exportError} />
           </div>
         </div>
       </div>
@@ -48,7 +47,7 @@ export default function App() {
         style={{ gridTemplateColumns: '280px 1fr 320px' }}>
         <TemplatePanel />
         <DesktopPreview cardRef={cardRef} />
-        <ControlPanel onExport={exportPng} onExportGif={exportGif} exporting={exporting} exported={exported} exportError={exportError} />
+        <ControlPanel onExport={exportPng} exporting={exporting} exported={exported} exportError={exportError} />
       </div>
 
       {/* Mobile full preview drawer */}

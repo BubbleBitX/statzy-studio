@@ -77,7 +77,7 @@ function ColorSwatch({ hex, label, onChange }) {
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────
-export default function ControlPanel({ onExport, onExportGif, exporting, exported, exportError }) {
+export default function ControlPanel({ onExport, exporting, exported, exportError }) {
   const {
     statNumber, statLabel, handle, growth, platformId,
     mini1, mini2, mini3,
